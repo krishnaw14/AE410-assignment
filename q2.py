@@ -1,6 +1,7 @@
 import numpy as np 
 import matplotlib.pyplot as plt 
 import os 
+from scipy.optimize import fsolve
 
 os.makedirs('plots', exist_ok=True)
 
@@ -9,6 +10,20 @@ def get_cmap(n, name='hsv'):
     RGB color; the keyword argument name must be a standard mpl colormap name.'''
     return plt.cm.get_cmap(name, n)
 
+def f(gamma_M):
+	# Part A equation
+	Vr = 173.205 - 400*np.cos(gamma_M-np.pi/6)
+	Vtheta = 100 - 400*np.sin(gamma_M-np.pi/6)
+	return Vtheta**2 - 2*Vr**2
+
+
+print('----------Solving for PART A----------')
+gamma_M_lower = fsolve(f, np.pi/9)[0]
+gamma_M_upper = fsolve(f, np.pi/2)[0]
+print('Required Range of gamma (in degrees): ({}, {})'.format(gamma_M_lower*180/np.pi, gamma_M_upper*180/np.pi))
+
+
+print('----------Solving for PART B----------')
 N = 3
 cmap = get_cmap(100)
 
@@ -28,3 +43,6 @@ plt.xlabel("$V_{\\theta_0}$")
 plt.ylabel('$V_{r_0}$')
 plt.title('Initial Condition for Capturability')
 plt.savefig('plots/q2_part_b.png')
+
+print('Plot saved: plots/q2_part_b.png ')
+
