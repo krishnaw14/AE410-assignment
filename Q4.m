@@ -37,4 +37,3 @@ saveas(gcf,'plots/q4_K=half.png')
 
 
 
-
